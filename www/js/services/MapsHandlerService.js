@@ -9,27 +9,48 @@ angular.module('MapsHandlerService', [])
 
   /* element -> DOM element que será montado o mapa*/
   function configureFirstTimeMap(element){
-      var myLatlng = new google.maps.LatLng(37.3000, -120.4833);
+      
+      getPosition(function(lat,lon){ 
+          var minhaPosicao = new google.maps.LatLng(lat, lon);
+          
+          var mapOptions = {
+            center: minhaPosicao,
+            zoom: 16,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+          };
 
-      var mapOptions = {
-          center: myLatlng,
-          zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
+          
+          var map = new google.maps.Map(element, mapOptions);
+          addMarker(map,lat,lon);
+      });
 
-      var map = new google.maps.Map(element, mapOptions);
+      
+  }
 
+  function getPosition(callback){
       navigator.geolocation.getCurrentPosition(function(pos) {
-          map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-          var myLocation = new google.maps.Marker({
-              position: new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude),
+          callback(pos.coords.latitude, pos.coords.longitude);
+      }); 
+
+      
+  }
+
+  function addMarker(map,lat,lon){
+    
+    try{
+
+      var newMarker = new google.maps.Marker({
+              position: new google.maps.LatLng(lat, lon),
               map: map,
               title: titleMap
-          });
       });
- 
-      return map;
+    
+    }catch(err){
+      console.log("addMarker: "+err);
+    }
+
   }
+
   /*
   google.maps.event.addDomListener(window, 'load', function() {
                 $scope.map = map;
@@ -43,8 +64,13 @@ angular.module('MapsHandlerService', [])
     initMap: function(mapDom) {
       element = document.querySelector('#'+mapDom);
       mapEvent = google.maps.event.addDomListener(window, 'load',configureFirstTimeMap(element) );
-      //return chats;
+
     },
+    
+    getPosition : getPosition,
+    addMarker: addMarker
+
+
     
   };
 });
