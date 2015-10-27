@@ -7,6 +7,11 @@ angular.module('MapsHandlerService', [])
   var titleMap = "PETAPP";
 
 
+  function registerWatcherPosition(callback){
+      if(typeof(callback) != "undefined")
+        navigator.geolocation.watchPosition(callback);
+  }
+
   /* element -> DOM element que será montado o mapa*/
   function setMyFirstPos(){
       
@@ -124,6 +129,7 @@ angular.module('MapsHandlerService', [])
     addRadiusFocus: addRadiusFocus,
     setMyFirstPos : setMyFirstPos,
     mountMap: mountMap,
-    getMapInstance: getMapInstance
+    getMapInstance: getMapInstance,
+    registerWatcherPosition : registerWatcherPosition
   };
 });
