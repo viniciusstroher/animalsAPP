@@ -5,5 +5,25 @@
     <div id="mapAction" ng-click="addAnimal()" data-tap-disabled="true">
     	<button>Adicionar Animal</button>
     </div>
+
+    <script id="select_animal.html" type="text/ng-template">
+	  <ion-modal-view>
+	    <ion-header-bar>
+	      <h1 class="title">Selecione o Tipo de Animal</h1>
+	    </ion-header-bar>
+	    <ion-content>
+	    	</br>
+	    	<center>
+	      <button ng-click="escolheGato()">
+	      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png" />
+	      </button>
+	      <button ng-click="escolheCachorro()">
+	      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png" />
+	      </button>
+	      	</center>
+	    </ion-content>
+	  </ion-modal-view>
+	</script>
+
 </ion-content> 
 </ion-view>

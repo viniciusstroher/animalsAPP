@@ -1,24 +1,53 @@
 angular.module('map.controllers', [])
 
-.controller('MapController', function($scope,MapsHandlerService) {
+.controller('MapController', function($scope,$ionicModal,MapsHandlerService) {
     controllerMap = 'map';
     
+
+    $ionicModal.fromTemplateUrl('select_animal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    
+    }).then(function(modal) {
+        $scope.modal = modal;
+    });
+
     MapsHandlerService.initMap(controllerMap);
     //Register Watch adiciona o marker a cada pulso de GPS
     MapsHandlerService.registerWatcherPosition(function(pos){
-        alert("init event gps listener");
         lat = pos.coords.latitude;
         lon = pos.coords.longitude;
-        MapsHandlerService.addMarker(MapsHandlerService.getMapInstance(),lat,lon);
+
+        MapsHandlerService.setPosition(lat,lon);
+        MapsHandlerService.addRadiusFocus(MapsHandlerService.getMapInstance(),
+                                            lat,
+                                            lon,
+                                            10,
+                                            '#000000');
     });
 
 
     $scope.addAnimal = function(){
-      MapsHandlerService.getNewPosition(function(lat,lon){
-        MapsHandlerService.setPosition(lat,lon);  
-        MapsHandlerService.addRadiusFocus(MapsHandlerService.getMapInstance(),lat,lon);
 
-      });
-
+      var coordenada = MapsHandlerService.getPosition();
+      
+      $scope.modal.show();
+      
     };
+
+    $scope.escolheGato = function(){
+        MapsHandlerService.addCatMarker();
+        $scope.modal.hide();
+      
+    }
+
+    $scope.escolheCachorro = function(){
+        MapsHandlerService.addDogMarker();
+        $scope.modal.hide();
+    }
+
+     
+
+      
+
 });
