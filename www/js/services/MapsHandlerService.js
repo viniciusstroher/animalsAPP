@@ -59,6 +59,7 @@ angular.module('MapsHandlerService', [])
         window.mapLat = lat;
         window.mapLng = lon;
 
+        window.mapMarkers = new Array();
 
         return map;       
   }
@@ -82,6 +83,8 @@ angular.module('MapsHandlerService', [])
       }); 
       
   }
+
+
 
   function addMarker(map,lat,lon){
     
@@ -117,6 +120,8 @@ angular.module('MapsHandlerService', [])
 
   function addRadiusFocus(map,lat,lon,area,color){
 
+
+
     var cityCircle = new google.maps.Circle({
       strokeColor: '#000000',
       strokeOpacity: 0.8,
@@ -132,19 +137,40 @@ angular.module('MapsHandlerService', [])
 
   function addCatMarker(){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png";
-    addCustoMarker(url);
+    
+    coords = getPosition();
+    addRadiusFocus(getMapInstance(),
+                    coords.lat,
+                    coords.lng,
+                    30,
+                    '#000000');
+
+    saveNewMarker(coords);
+    addCustomMarker(url);
   }
 
   function addDogMarker(){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png";
-    addCustoMarker(url);
+    
+    coords = getPosition();
+    addRadiusFocus(getMapInstance(),
+                    coords.lat,
+                    coords.lng,
+                    30,
+                    '#000000');
+    saveNewMarker(coords);
+    addCustomMarker(url);
   }  
+
+  function saveNewMarker(marker){
+    window.mapMarkers.push(marker);
+  }
   
-  function addCustoMarker(url){
+  function addCustomMarker(url){
     try{
 
       coords = getPosition();
-      
+     
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(coords.lat,coords.lng),
         map: getMapInstance(),
@@ -175,8 +201,9 @@ angular.module('MapsHandlerService', [])
     getMapInstance: getMapInstance,
     drawMyPos : drawMyPos,
     registerWatcherPosition : registerWatcherPosition,
-    addCustoMarker : addCustoMarker,
+    addCustomMarker : addCustomMarker,
     addCatMarker : addCatMarker,
-    addDogMarker : addDogMarker
+    addDogMarker : addDogMarker,
+    saveNewMarker: saveNewMarker
   };
 });
