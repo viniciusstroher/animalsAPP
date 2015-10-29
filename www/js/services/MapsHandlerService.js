@@ -69,12 +69,18 @@ angular.module('MapsHandlerService', [])
     window.mapLng = lng;
   }
 
+  function centerMap(lat,lng){
+    var map = getMapInstance();
+    map.setCenter(new google.maps.LatLng(lat,lng));
+  }
+
   function getPosition(){
     lat = window.mapLat;
     lng = window.mapLng;
     
     return {lat: lat, lng: lng};
   }
+
 
 
   function getNewPosition(callback){
@@ -145,7 +151,7 @@ angular.module('MapsHandlerService', [])
                     30,
                     '#000000');
 
-    saveNewMarker(coords);
+    saveNewMarker({coords:coords,animal:'Gato',url:url});
     addCustomMarker(url);
   }
 
@@ -158,12 +164,16 @@ angular.module('MapsHandlerService', [])
                     coords.lng,
                     30,
                     '#000000');
-    saveNewMarker(coords);
+    saveNewMarker({coords:coords,animal:'Cachorro',url:url});
     addCustomMarker(url);
   }  
 
   function saveNewMarker(marker){
     window.mapMarkers.push(marker);
+  }
+
+  function getSavedMarkers(marker){
+    return window.mapMarkers;
   }
   
   function addCustomMarker(url){
@@ -177,6 +187,14 @@ angular.module('MapsHandlerService', [])
         icon: url,
         width: 10,
         height: 10
+      });
+
+      var infowindow = new google.maps.InfoWindow({
+        content: '<img src="'+url+'" />'+'PERDIDO'
+      });
+
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
       });
 
     }catch(err){
@@ -204,6 +222,8 @@ angular.module('MapsHandlerService', [])
     addCustomMarker : addCustomMarker,
     addCatMarker : addCatMarker,
     addDogMarker : addDogMarker,
-    saveNewMarker: saveNewMarker
+    saveNewMarker: saveNewMarker,
+    getSavedMarkers: getSavedMarkers,
+    centerMap: centerMap
   };
 });
