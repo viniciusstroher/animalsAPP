@@ -128,7 +128,7 @@ angular.module('MapsHandlerService', [])
 
 
 
-    var cityCircle = new google.maps.Circle({
+    var circle = new google.maps.Circle({
       strokeColor: '#000000',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -139,6 +139,22 @@ angular.module('MapsHandlerService', [])
       radius: area
     });
 
+    addCircle(circle);
+
+  }
+
+  function getCircle(){
+    return window.mapCircles;
+  }
+
+  function isHitingCircle(){
+    
+  }
+
+  function addCircle(circle){
+    if(typeof(window.mapCircles) == "undefined")
+      window.mapCircles = new Array();
+    window.mapCircles.push(circle);
   }
 
   function addCatMarker(){
@@ -224,6 +240,8 @@ angular.module('MapsHandlerService', [])
     addDogMarker : addDogMarker,
     saveNewMarker: saveNewMarker,
     getSavedMarkers: getSavedMarkers,
-    centerMap: centerMap
+    centerMap: centerMap,
+    addCircle: addCircle,
+    getCircle: getCircle
   };
 });
