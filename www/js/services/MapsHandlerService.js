@@ -147,8 +147,11 @@ angular.module('MapsHandlerService', [])
     return window.mapCircles;
   }
 
-  function isHitingCircle(){
-    
+  function isHitingCircle(lat,lon){
+    console.log(lat);
+    console.log(lng);
+
+    return true;
   }
 
   function addCircle(circle){
@@ -161,12 +164,15 @@ angular.module('MapsHandlerService', [])
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png";
     
     coords = getPosition();
-    addRadiusFocus(getMapInstance(),
+
+    if(isHitingCircle(coords.lat,coords.lng)){
+
+      addRadiusFocus(getMapInstance(),
                     coords.lat,
                     coords.lng,
                     30,
                     '#000000');
-
+    }
     saveNewMarker({coords:coords,animal:'Gato',url:url});
     addCustomMarker(url);
   }
@@ -175,11 +181,15 @@ angular.module('MapsHandlerService', [])
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png";
     
     coords = getPosition();
-    addRadiusFocus(getMapInstance(),
+
+    if(isHitingCircle(coords.lat,coords.lng)){
+
+      addRadiusFocus(getMapInstance(),
                     coords.lat,
                     coords.lng,
                     30,
                     '#000000');
+    }
     saveNewMarker({coords:coords,animal:'Cachorro',url:url});
     addCustomMarker(url);
   }  
@@ -242,6 +252,7 @@ angular.module('MapsHandlerService', [])
     getSavedMarkers: getSavedMarkers,
     centerMap: centerMap,
     addCircle: addCircle,
-    getCircle: getCircle
+    getCircle: getCircle,
+    isHitingCircle : isHitingCircle
   };
 });
