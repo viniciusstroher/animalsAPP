@@ -13,11 +13,17 @@ angular.module('MapsHandlerService', [])
   }
 
   function drawMyPos(lat,lon){
-    addRadiusFocus(getMapInstance(),
+    circle = addRadiusFocus(getMapInstance(),
                                             lat,
                                             lon,
                                             10,
                                             '#000000');
+    //refresh my pos - deletando as antigas
+    if(typeof(window.myPosCircle) != "undefined" ){
+        window.myPosCircle.setMap(null);
+    }
+
+    window.myPosCircle = circle;
   }
 
   /* element -> DOM element que será montado o mapa*/
@@ -139,7 +145,7 @@ angular.module('MapsHandlerService', [])
       radius: area
     });
 
-    addCircle(circle);
+    return circle;
 
   }
 
@@ -148,8 +154,28 @@ angular.module('MapsHandlerService', [])
   }
 
   function isHitingCircle(lat,lon){
-    console.log(lat);
-    console.log(lng);
+    var atualCoords = new google.maps.LatLng(lat,lon);
+
+    var circles = getCircle();
+
+    var maisPerto = null;
+
+    for(c in circles){
+        var circle = circles[c];
+        var center = circle.getCenter();
+        var radius = circle.getRadius();
+        var bounds = circle.getBounds();
+
+
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(atualCoords, center);
+        console.log("Distance: "+distance+"###"+radius);
+        
+        if(distance<=radius)
+          maisPerto = circle;
+    }
+    
+    if(maisPerto != null)
+      return false;
 
     return true;
   }
@@ -164,14 +190,17 @@ angular.module('MapsHandlerService', [])
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png";
     
     coords = getPosition();
+    hit = isHitingCircle(coords.lat,coords.lng);
+    console.log(hit);
+    
+    if(hit){
 
-    if(isHitingCircle(coords.lat,coords.lng)){
-
-      addRadiusFocus(getMapInstance(),
+      circle = addRadiusFocus(getMapInstance(),
                     coords.lat,
                     coords.lng,
                     30,
                     '#000000');
+      addCircle(circle);
     }
     saveNewMarker({coords:coords,animal:'Gato',url:url});
     addCustomMarker(url);
@@ -181,15 +210,19 @@ angular.module('MapsHandlerService', [])
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png";
     
     coords = getPosition();
+    hit = isHitingCircle(coords.lat,coords.lng);
+    console.log(hit);
+    
+    if(hit){
 
-    if(isHitingCircle(coords.lat,coords.lng)){
-
-      addRadiusFocus(getMapInstance(),
+      circle = addRadiusFocus(getMapInstance(),
                     coords.lat,
                     coords.lng,
                     30,
                     '#000000');
+      addCircle(circle);
     }
+
     saveNewMarker({coords:coords,animal:'Cachorro',url:url});
     addCustomMarker(url);
   }  

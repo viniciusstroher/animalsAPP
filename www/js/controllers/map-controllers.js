@@ -24,6 +24,7 @@ angular.module('map.controllers', [])
                                             lon,
                                             10,
                                             '#000000');
+        MapsHandlerService.drawMyPos(lat,lon);
     });
 
 
