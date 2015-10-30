@@ -14,7 +14,6 @@ angular.module('MapsHandlerService', [])
 
   function drawMyPos(lat,lon){
     if(typeof(window.myPosCircle) != "undefined" ){
-        alert('del');
         window.myPosCircle.setMap(null);
         window.myPosCircle = null;
     }
@@ -55,7 +54,8 @@ angular.module('MapsHandlerService', [])
         var mapOptions = {
           center: minhaPosicao,
           zoom: 16,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          disableDefaultUI: true
         };
 
         if(window.mapApp == undefined){

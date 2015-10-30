@@ -4,12 +4,24 @@ angular.module('map.controllers', [])
     controllerMap = 'map';
     
 
+    
+    $scope.saveLostAnimal = function(){
+        scopoModal = $scope.modal.scope;
+
+        animal = scopoModal.animal;
+        healthStatus = scopoModal.healthStatus;
+        descri = scopoModal.descri;
+        alert(animal+"@"+healthStatus+"#"+descri);
+        
+    }
+
     $ionicModal.fromTemplateUrl('select_animal.html', {
         scope: $scope,
         animation: 'slide-in-up'
     
     }).then(function(modal) {
         $scope.modal = modal;
+
     });
 
     MapsHandlerService.initMap(controllerMap);

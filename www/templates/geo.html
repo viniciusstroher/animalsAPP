@@ -1,4 +1,4 @@
-<ion-view view-title="Geo" >
+<ion-view view-title="Geo" cache-view="true">
   <ion-content ng-controller="MapController">
     <div id="map" data-tap-disabled="true"></div>
     
@@ -14,13 +14,39 @@
 	    <ion-content>
 	    	</br>
 	    	<center>
-	      <button ng-click="escolheGato()">
-	      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png" />
-	      </button>
-	      <button ng-click="escolheCachorro()">
-	      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png" />
-	      </button>
-	      	</center>
+	    	<div>
+		      <button ng-click="$parent.$parent.animal = 'cat'">
+		      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png" />
+		      </button>
+		      <button ng-click="$parent.$parent.animal = 'dog' ">
+		      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png" />
+		      </button>
+		      <button ng-click="$parent.$parent.animal = 'others'">
+		      	<img src="../img/others.png" />
+		      </button>
+	      	</div><br/>
+	      	<div>
+		      <button ng-click="$parent.$parent.healthStatus = 'fome'">
+		      	<img src="../img/fome.png" />
+		      </button>
+		      <button ng-click="$parent.$parent.healthStatus = 'doente'">
+		      	<img src="../img/bandaid.png" />
+		      </button>
+		      <button ng-click="$parent.$parent.healthStatus = 'medo'">
+		      	<img src="../img/fear.png" />
+		      </button>
+		      <button ng-click="$parent.$parent.healthStatus = 'raiva'">
+		      	<img src="../img/raiva.png" />
+		      </button>
+		      
+	      	</div>
+	      	<br/>
+	      	<textarea ng-blur="$parent.$parent.descri = this.value"></textarea>
+			<button ng-click="saveLostAnimal()">
+		      	<img src="../img/save.png" />
+		    </button>	      	
+
+		  </center>
 	    </ion-content>
 	  </ion-modal-view>
 	</script>
