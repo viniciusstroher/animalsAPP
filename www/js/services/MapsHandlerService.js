@@ -13,15 +13,19 @@ angular.module('MapsHandlerService', [])
   }
 
   function drawMyPos(lat,lon){
+    if(typeof(window.myPosCircle) != "undefined" ){
+        alert('del');
+        window.myPosCircle.setMap(null);
+        window.myPosCircle = null;
+    }
+
     circle = addRadiusFocus(getMapInstance(),
                                             lat,
                                             lon,
                                             10,
-                                            '#000000');
+                                            'red');
     //refresh my pos - deletando as antigas
-    if(typeof(window.myPosCircle) != "undefined" ){
-        window.myPosCircle.setMap(null);
-    }
+
 
     window.myPosCircle = circle;
   }

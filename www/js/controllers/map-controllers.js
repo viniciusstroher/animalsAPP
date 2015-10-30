@@ -19,11 +19,11 @@ angular.module('map.controllers', [])
         lon = pos.coords.longitude;
 
         MapsHandlerService.setPosition(lat,lon);
-        MapsHandlerService.addRadiusFocus(MapsHandlerService.getMapInstance(),
+        /*MapsHandlerService.addRadiusFocus(MapsHandlerService.getMapInstance(),
                                             lat,
                                             lon,
                                             10,
-                                            '#000000');
+                                            '#000000');*/
         MapsHandlerService.drawMyPos(lat,lon);
     });
 
