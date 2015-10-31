@@ -2,18 +2,19 @@
   <ion-content ng-controller="MapController">
     <div id="map" data-tap-disabled="true"></div>
     
-    <div id="mapAction" ng-click="addAnimal()" data-tap-disabled="true">
+    <div id="mapAction"  ng-click="addAnimal()" data-tap-disabled="true">
     	<button>Adicionar Animal</button>
     </div>
 
     <script id="select_animal.html" type="text/ng-template">
-	  <ion-modal-view>
+	  <ion-modal-view style=" height: 70%;">
 	    <ion-header-bar>
 	      <h1 class="title">Selecione o Tipo de Animal</h1>
 	    </ion-header-bar>
 	    <ion-content>
 	    	</br>
 	    	<center>
+	    	<span>Tipo de Animal Pardido</span>
 	    	<div>
 		      <button ng-click="$parent.$parent.animal = 'cat'">
 		      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png" />
@@ -25,27 +26,33 @@
 		      	<img src="../img/others.png" />
 		      </button>
 	      	</div><br/>
+	      	<span>Estado do Animal </span>
+	    	
 	      	<div>
-		      <button ng-click="$parent.$parent.healthStatus = 'fome'">
+		      <button ng-click="$parent.$parent.healthStatus1 = 'fome'">
 		      	<img src="../img/fome.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.healthStatus = 'doente'">
+		      <button ng-click="$parent.$parent.healthStatus2 = 'doente'">
 		      	<img src="../img/bandaid.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.healthStatus = 'medo'">
+		      <button ng-click="$parent.$parent.healthStatus3 = 'medo'">
 		      	<img src="../img/fear.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.healthStatus = 'raiva'">
+		      <button ng-click="$parent.$parent.healthStatus4 = 'raiva'">
 		      	<img src="../img/raiva.png" />
 		      </button>
 		      
 	      	</div>
 	      	<br/>
-	      	<textarea ng-blur="$parent.$parent.descri = this.value"></textarea>
+	      	<span>Descrição</span>
+	    	
+	      	<textarea ng-model="$parent.$parent.descri" style="border:2px black solid;border-radius: 25px;width:80%;height:100px;padding:10px 10px 10px 10px" ng-blur="updateTextArea(this)"></textarea>
+			<br/>
 			<button ng-click="saveLostAnimal()">
-		      	<img src="../img/save.png" />
+		      	<span style="font-weight:bold">Salvar</span>
+	    	
 		    </button>	      	
-
+		    <br/>
 		  </center>
 	    </ion-content>
 	  </ion-modal-view>

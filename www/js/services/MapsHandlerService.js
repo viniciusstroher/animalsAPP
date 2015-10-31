@@ -190,7 +190,7 @@ angular.module('MapsHandlerService', [])
     window.mapCircles.push(circle);
   }
 
-  function addCatMarker(){
+  function addCatMarker(postData){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png";
     
     coords = getPosition();
@@ -206,11 +206,13 @@ angular.module('MapsHandlerService', [])
                     '#000000');
       addCircle(circle);
     }
-    saveNewMarker({coords:coords,animal:'Gato',url:url});
-    addCustomMarker(url);
+
+    infoPackge = {coords:coords,animal:'Gato',url:url, data: postData};
+    saveNewMarker(infoPackge);
+    addCustomMarker(infoPackge);
   }
 
-  function addDogMarker(){
+  function addDogMarker(postData){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png";
     
     coords = getPosition();
@@ -227,8 +229,31 @@ angular.module('MapsHandlerService', [])
       addCircle(circle);
     }
 
-    saveNewMarker({coords:coords,animal:'Cachorro',url:url});
-    addCustomMarker(url);
+    infoPackge = {coords:coords,animal:'Cachorro',url:url, data: postData};
+    saveNewMarker(infoPackge);
+    addCustomMarker(infoPackge);
+  }
+
+  function addOthersMarker(postData){
+    url = "../img/others.png";
+    
+    coords = getPosition();
+    hit = isHitingCircle(coords.lat,coords.lng);
+    console.log(hit);
+    
+    if(hit){
+
+      circle = addRadiusFocus(getMapInstance(),
+                    coords.lat,
+                    coords.lng,
+                    30,
+                    '#000000');
+      addCircle(circle);
+    }
+
+    infoPackge = {coords:coords,animal:'Outro',url:url, data: postData};
+    saveNewMarker(infoPackge);
+    addCustomMarker(infoPackge);
   }  
 
   function saveNewMarker(marker){
@@ -239,7 +264,7 @@ angular.module('MapsHandlerService', [])
     return window.mapMarkers;
   }
   
-  function addCustomMarker(url){
+  function addCustomMarker(postData){
     try{
 
       coords = getPosition();
@@ -247,13 +272,30 @@ angular.module('MapsHandlerService', [])
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(coords.lat,coords.lng),
         map: getMapInstance(),
-        icon: url,
+        icon: postData.url,
         width: 10,
         height: 10
       });
 
       var infowindow = new google.maps.InfoWindow({
-        content: '<img src="'+url+'" />'+'PERDIDO'
+        content: '<div id="coords_'+coords.lat+'_'+coords.lng+'"><center><img src="'+postData.url+'" /> '+
+                  '<table>'+
+                  '<tr>'+
+                  '<td><b>Tipo do Animal:</b></td>'+'<td>'+postData.animal+'</td>'+
+                  '</tr>'+
+                  
+                  '<tr>'+
+                  '<td><b>Estado do Animal</b></td>' +'<td>'+postData.data.estado.join(',')+'</td>'+
+                  '</tr>'+
+
+                  '<tr>'+
+                  '<td><b>Descrição:</b></td>'+'<td>'+postData.data.descri+'</td>'+
+                  '</tr>'+
+                  
+
+                  '</table>'+
+
+                  '</center> </div>'
       });
 
       marker.addListener('click', function() {
@@ -285,6 +327,7 @@ angular.module('MapsHandlerService', [])
     addCustomMarker : addCustomMarker,
     addCatMarker : addCatMarker,
     addDogMarker : addDogMarker,
+    addOthersMarker: addOthersMarker,
     saveNewMarker: saveNewMarker,
     getSavedMarkers: getSavedMarkers,
     centerMap: centerMap,

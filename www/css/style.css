@@ -11,12 +11,12 @@
 
 #mapAction{
 	position: absolute;
-	margin-top: -30px;
+	margin-top: -52px;
 
 	z-index: 9999;
 	width: 100%;
 }
 #mapAction button{
 	width: 100%;
-	height: 30px;
+	height: 50px;
 }
