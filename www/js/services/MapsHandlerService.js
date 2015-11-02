@@ -172,7 +172,7 @@ angular.module('MapsHandlerService', [])
 
 
         var distance = google.maps.geometry.spherical.computeDistanceBetween(atualCoords, center);
-        console.log("Distance: "+distance+"###"+radius);
+        //console.log("Distance: "+distance+"###"+radius);
         
         if(distance<=radius)
           maisPerto = circle;
@@ -192,10 +192,9 @@ angular.module('MapsHandlerService', [])
 
   function addCatMarker(postData){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png";
-    
+    circle = null;
     coords = getPosition();
     hit = isHitingCircle(coords.lat,coords.lng);
-    console.log(hit);
     
     if(hit){
 
@@ -207,17 +206,16 @@ angular.module('MapsHandlerService', [])
       addCircle(circle);
     }
 
-    infoPackge = {coords:coords,animal:'Gato',url:url, data: postData};
+    infoPackge = {circle:circle,coords:coords,animal:'Gato',url:url, data: postData};
     saveNewMarker(infoPackge);
     addCustomMarker(infoPackge);
   }
 
   function addDogMarker(postData){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png";
-    
+    circle = null;
     coords = getPosition();
     hit = isHitingCircle(coords.lat,coords.lng);
-    console.log(hit);
     
     if(hit){
 
@@ -229,17 +227,16 @@ angular.module('MapsHandlerService', [])
       addCircle(circle);
     }
 
-    infoPackge = {coords:coords,animal:'Cachorro',url:url, data: postData};
+    infoPackge = {circle:circle,coords:coords,animal:'Cachorro',url:url, data: postData};
     saveNewMarker(infoPackge);
     addCustomMarker(infoPackge);
   }
 
   function addOthersMarker(postData){
     url = "../img/others.png";
-    
+    circle = null;
     coords = getPosition();
     hit = isHitingCircle(coords.lat,coords.lng);
-    console.log(hit);
     
     if(hit){
 
@@ -251,7 +248,7 @@ angular.module('MapsHandlerService', [])
       addCircle(circle);
     }
 
-    infoPackge = {coords:coords,animal:'Outro',url:url, data: postData};
+    infoPackge = {circle:circle,coords:coords,animal:'Outro',url:url, data: postData};
     saveNewMarker(infoPackge);
     addCustomMarker(infoPackge);
   }  
@@ -276,6 +273,8 @@ angular.module('MapsHandlerService', [])
         width: 10,
         height: 10
       });
+
+      console.log('circulo',postData.circle);
 
       var infowindow = new google.maps.InfoWindow({
         content: '<div id="coords_'+coords.lat+'_'+coords.lng+'"><center><img src="'+postData.url+'" /> '+
