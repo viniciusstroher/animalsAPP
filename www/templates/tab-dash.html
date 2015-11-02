@@ -1,11 +1,12 @@
 <ion-view view-title="Dashboard" cache-view="false">
   <ion-content class="padding">
     <div class="list card" ng-click="gotoAnimal({{place.coords.lat}},{{place.coords.lng}})" ng-repeat="place in places">
-      <div class="item item-divider"><img src="{{place.url}}" /> Ultimo {{place.animal}} adicionado  
+      <div class="item item-divider"><img src="{{place.url}}" /> Ultimo {{place.animal}} adicionado  Estado(s): <h2 ng-repeat="est in place.data.estado">{{ est }},</h2>
       </div>
       <div class="item item-body">
         <div>
-          <b>{{place.animal}}</b> em Latitude: {{place.coords.lat}}, Longitude {{place.coords.lng}}
+          <b>{{place.animal}}</b> em Latitude: {{place.coords.lat}}, Longitude {{place.coords.lng}}<br/>
+          {{place.data.descri}}
         </div>
       </div>
     </div>
