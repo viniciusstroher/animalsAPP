@@ -264,15 +264,8 @@ angular.module('MapsHandlerService', [])
     return window.mapMarkers;
   }
   
-  function addCustomMarker(postData){
-    try{
-
-      coords = getPosition();
-     
-
-
-      var infowindow = new google.maps.InfoWindow({
-        content: '<div id="coords_'+coords.lat+'_'+coords.lng+'"><center><img src="'+postData.url+'" /> '+
+  function addLabel(coords,postData){
+    var label = '<div id="coords_'+coords.lat+'_'+coords.lng+'"><center><img src="'+postData.url+'" /> '+
                   '<table>'+
                   '<tr>'+
                   '<td><b>Tipo do Animal:</b></td>'+'<td>'+postData.animal+'</td>'+
@@ -289,7 +282,19 @@ angular.module('MapsHandlerService', [])
 
                   '</table>'+
 
-                  '</center> </div>'
+                  '</center> </div>';
+    return label;
+  }
+
+  function addCustomMarker(postData){
+    try{
+
+      coords = getPosition();
+     
+
+
+      var infowindow = new google.maps.InfoWindow({
+        content: addLabel(coords,postData)
       });
 
       if(postData.circle.marker == null){
@@ -307,7 +312,12 @@ angular.module('MapsHandlerService', [])
         });
 
         postData.circle.marker = marker;
+        postData.circle.infowindow = infowindow;
       }else{
+        console.log('infowindow',postData.circle.infowindow);
+        cache = postData.circle.infowindow.content;
+
+        postData.circle.infowindow.content = cache + addLabel(coords,postData);
         postData.circle.marker.addListener('click', function() {
           infowindow.open(map, postData.circle.marker);
         });
@@ -350,6 +360,7 @@ angular.module('MapsHandlerService', [])
     centerMap: centerMap,
     addCircle: addCircle,
     getCircle: getCircle,
-    isHitingCircle : isHitingCircle
+    isHitingCircle : isHitingCircle,
+    addLabel: addLabel
   };
 });
