@@ -178,10 +178,7 @@ angular.module('MapsHandlerService', [])
           maisPerto = circle;
     }
     
-    if(maisPerto != null)
-      return false;
-
-    return true;
+    return maisPerto;
   }
 
   function addCircle(circle){
@@ -196,7 +193,7 @@ angular.module('MapsHandlerService', [])
     coords = getPosition();
     hit = isHitingCircle(coords.lat,coords.lng);
     
-    if(hit){
+    if(hit == null){
 
       circle = addRadiusFocus(getMapInstance(),
                     coords.lat,
@@ -204,6 +201,8 @@ angular.module('MapsHandlerService', [])
                     30,
                     '#000000');
       addCircle(circle);
+    }else{
+      circle = hit;
     }
 
     infoPackge = {circle:circle,coords:coords,animal:'Gato',url:url, data: postData};
@@ -217,7 +216,7 @@ angular.module('MapsHandlerService', [])
     coords = getPosition();
     hit = isHitingCircle(coords.lat,coords.lng);
     
-    if(hit){
+    if(hit == null){
 
       circle = addRadiusFocus(getMapInstance(),
                     coords.lat,
@@ -225,6 +224,8 @@ angular.module('MapsHandlerService', [])
                     30,
                     '#000000');
       addCircle(circle);
+    }else{
+      circle = hit;
     }
 
     infoPackge = {circle:circle,coords:coords,animal:'Cachorro',url:url, data: postData};
@@ -238,7 +239,7 @@ angular.module('MapsHandlerService', [])
     coords = getPosition();
     hit = isHitingCircle(coords.lat,coords.lng);
     
-    if(hit){
+    if(hit == null){
 
       circle = addRadiusFocus(getMapInstance(),
                     coords.lat,
@@ -246,6 +247,8 @@ angular.module('MapsHandlerService', [])
                     30,
                     '#000000');
       addCircle(circle);
+    }else{
+      circle = hit;
     }
 
     infoPackge = {circle:circle,coords:coords,animal:'Outro',url:url, data: postData};
@@ -266,15 +269,7 @@ angular.module('MapsHandlerService', [])
 
       coords = getPosition();
      
-      var marker = new google.maps.Marker({
-        position: new google.maps.LatLng(coords.lat,coords.lng),
-        map: getMapInstance(),
-        icon: postData.url,
-        width: 10,
-        height: 10
-      });
 
-      console.log('circulo',postData.circle);
 
       var infowindow = new google.maps.InfoWindow({
         content: '<div id="coords_'+coords.lat+'_'+coords.lng+'"><center><img src="'+postData.url+'" /> '+
@@ -297,10 +292,33 @@ angular.module('MapsHandlerService', [])
                   '</center> </div>'
       });
 
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
-      });
+      if(postData.circle.marker == null){
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(coords.lat,coords.lng),
+          map: getMapInstance(),
+          icon: postData.url,
+          width: 10,
+          height: 10
+        });
+        
 
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+        postData.circle.marker = marker;
+      }else{
+        postData.circle.marker.addListener('click', function() {
+          infowindow.open(map, postData.circle.marker);
+        });
+
+        //postData.circle.marker = marker;
+      
+      }
+      
+
+      
+      
     }catch(err){
       console.log('addCustoMarker: '+err);
     }

@@ -27,9 +27,10 @@ angular.module('map.controllers', [])
         
         descri = "";
         
-        if(typeof(scopoModal.descri) != "undefined")
+        if(typeof(scopoModal.descri) != "undefined"){
             descri = scopoModal.descri;
-        
+            scopoModal.descri = "";
+        }
 
 
         
