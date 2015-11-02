@@ -253,7 +253,7 @@ angular.module('MapsHandlerService', [])
 
     infoPackge = {circle:circle,coords:coords,animal:'Outro',url:url, data: postData};
     saveNewMarker(infoPackge);
-    addCustomMarker(infoPackge);
+    addCustomMarker(infoPackge,circle);
   }  
 
   function saveNewMarker(marker){
@@ -293,9 +293,7 @@ angular.module('MapsHandlerService', [])
      
 
 
-      var infowindow = new google.maps.InfoWindow({
-        content: addLabel(coords,postData)
-      });
+      
 
       if(postData.circle.marker == null){
         var marker = new google.maps.Marker({
@@ -306,22 +304,29 @@ angular.module('MapsHandlerService', [])
           height: 10
         });
         
+        var infowindow = new google.maps.InfoWindow({
+          content: addLabel(coords,postData)
+        });
 
         marker.addListener('click', function() {
-          infowindow.open(map, marker);
+          infowindow.open(getMapInstance(), marker);
         });
 
         postData.circle.marker = marker;
         postData.circle.infowindow = infowindow;
       }else{
-        console.log('infowindow',postData.circle.infowindow);
+
+        postData.circle.infowindow.close();
+
+        console.log('infowindow',postData.circle.marker);
         cache = postData.circle.infowindow.content;
 
-        postData.circle.infowindow.content = cache + addLabel(coords,postData);
+      
         postData.circle.marker.addListener('click', function() {
-          infowindow.open(map, postData.circle.marker);
-        });
-
+          postData.circle.infowindow.setContent(cache + addLabel(coords,postData));
+          postData.circle.infowindow.open(getMapInstance(), postData.circle.marker);
+        });          
+   
         //postData.circle.marker = marker;
       
       }
