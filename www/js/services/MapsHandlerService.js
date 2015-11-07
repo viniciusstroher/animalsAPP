@@ -290,10 +290,6 @@ angular.module('MapsHandlerService', [])
     try{
 
       coords = getPosition();
-     
-
-
-      
 
       if(postData.circle.marker == null){
         var marker = new google.maps.Marker({
@@ -319,6 +315,9 @@ angular.module('MapsHandlerService', [])
         postData.circle.infowindow.close();
 
         console.log('infowindow',postData.circle.marker);
+
+        postData.circle.marker.setIcon("../img/others.png");
+
         cache = postData.circle.infowindow.content;
 
       
