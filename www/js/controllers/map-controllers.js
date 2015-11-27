@@ -14,15 +14,15 @@ angular.module('map.controllers', [])
         animal = scopoModal.animal;
         healthStatus = new Array();
 
-        if(typeof(scopoModal.healthStatus1) != "undefined")
+        if(typeof(scopoModal.healthStatus1) != "undefined" && scopoModal.healthStatus1 != null)
             healthStatus.push(scopoModal.healthStatus1);
-        if(typeof(scopoModal.healthStatus2) != "undefined")
+        if(typeof(scopoModal.healthStatus2) != "undefined" && scopoModal.healthStatus2 != null)
             healthStatus.push(scopoModal.healthStatus2);
-        if(typeof(scopoModal.healthStatus3) != "undefined")
+        if(typeof(scopoModal.healthStatus3) != "undefined" && scopoModal.healthStatus3 != null)
             healthStatus.push(scopoModal.healthStatus3);
-        if(typeof(scopoModal.healthStatus4) != "undefined")
+        if(typeof(scopoModal.healthStatus4) != "undefined" && scopoModal.healthStatus4 != null)
             healthStatus.push(scopoModal.healthStatus4);
-        if(typeof(scopoModal.healthStatus5) != "undefined")
+        if(typeof(scopoModal.healthStatus5) != "undefined" && scopoModal.healthStatus5 != null)
             healthStatus.push(scopoModal.healthStatus5);
         
         descri = "";
@@ -38,6 +38,13 @@ angular.module('map.controllers', [])
                         estado: healthStatus,
                         descri: descri};
 
+
+        //Limpa os objetos antes de enviar o post
+        scopoModal.healthStatus1 = null;
+        scopoModal.healthStatus2 = null;
+        scopoModal.healthStatus3 = null;
+        scopoModal.healthStatus4 = null;
+        scopoModal.healthStatus5 = null;
 
         switch(animal){
             case 'cat': 
