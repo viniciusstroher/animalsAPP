@@ -8,22 +8,40 @@ angular.module('map.controllers', [])
         $scope.descri = element.value;
     }
     
+    $scope.fomeSelected = false;
+    $scope.doenteSelected = false;
+    $scope.medoSelected = false;
+    $scope.raivaSelected = false;
+
+    $scope.selectFome = function(){
+        $scope.fomeSelected = !$scope.fomeSelected;
+    }
+
+     $scope.selectDoente = function(){
+        $scope.doenteSelected = !$scope.doenteSelected;
+    }
+     $scope.selectMedo = function(){
+        $scope.medoSelected = !$scope.medoSelected;
+    }
+
+     $scope.selectRaiva = function(){
+        $scope.raivaSelected = !$scope.raivaSelected;
+    }
+
     $scope.saveLostAnimal = function(){
         scopoModal = $scope.modal.scope;
 
         animal = scopoModal.animal;
         healthStatus = new Array();
 
-        if(typeof(scopoModal.healthStatus1) != "undefined" && scopoModal.healthStatus1 != null)
-            healthStatus.push(scopoModal.healthStatus1);
-        if(typeof(scopoModal.healthStatus2) != "undefined" && scopoModal.healthStatus2 != null)
-            healthStatus.push(scopoModal.healthStatus2);
-        if(typeof(scopoModal.healthStatus3) != "undefined" && scopoModal.healthStatus3 != null)
-            healthStatus.push(scopoModal.healthStatus3);
-        if(typeof(scopoModal.healthStatus4) != "undefined" && scopoModal.healthStatus4 != null)
-            healthStatus.push(scopoModal.healthStatus4);
-        if(typeof(scopoModal.healthStatus5) != "undefined" && scopoModal.healthStatus5 != null)
-            healthStatus.push(scopoModal.healthStatus5);
+        if($scope.fomeSelected)
+            healthStatus.push("fome");
+        if($scope.doenteSelected)
+            healthStatus.push("doente");
+        if($scope.medoSelected)
+            healthStatus.push("medo");
+        if($scope.raivaSelected)
+            healthStatus.push("raiva");
         
         descri = "";
         
