@@ -6,6 +6,7 @@ angular.module('map.controllers', [])
     $scope.updateTextArea = function(element){
         console.log(element);
         $scope.descri = element.value;
+        //coment do merge
     }
     
     $scope.saveLostAnimal = function(){
