@@ -16,29 +16,29 @@
 	    	<center>
 	    	<span>Tipo de Animal Pardido</span>
 	    	<div>
-		      <button ng-click="$parent.$parent.animal = 'cat'">
+		      <button ng-click="$parent.$parent.animal = 'cat'" ng-class="{'selectedButton': $parent.$parent.animal == 'cat'}">
 		      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.animal = 'dog' ">
+		      <button ng-click="$parent.$parent.animal = 'dog'" ng-class="{'selectedButton': $parent.$parent.animal == 'dog'}">
 		      	<img src="http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.animal = 'others'">
+		      <button ng-click="$parent.$parent.animal = 'others'" ng-class="{'selectedButton': $parent.$parent.animal == 'others'}">
 		      	<img src="../img/others.png" />
 		      </button>
 	      	</div><br/>
 	      	<span>Estado do Animal </span>
 	    	
 	      	<div>
-		      <button ng-click="$parent.$parent.healthStatus1 = 'fome'">
+		      <button ng-click="selectFome()" ng-class="{'selectedButton': fomeSelected}">
 		      	<img src="../img/fome.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.healthStatus2 = 'doente'">
+		      <button ng-click="selectDoente()" ng-class="{'selectedButton': doenteSelected}">
 		      	<img src="../img/bandaid.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.healthStatus3 = 'medo'">
+		      <button ng-click="selectMedo()" ng-class="{'selectedButton': medoSelected}">
 		      	<img src="../img/fear.png" />
 		      </button>
-		      <button ng-click="$parent.$parent.healthStatus4 = 'raiva'">
+		      <button ng-click="selectRaiva()" ng-class="{'selectedButton': raivaSelected}">
 		      	<img src="../img/raiva.png" />
 		      </button>
 		      
