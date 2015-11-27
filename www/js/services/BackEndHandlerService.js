@@ -21,7 +21,7 @@ angular.module('BackEndHandlerService', [])
 
     var postData = {
       "AuthToken" : token,
-	    "IdRegistroAnimal": 0,
+	    
 	    "IdTipoAnimal": 0,
 	    "IdEstadoAnimal": 0,
 	    "IdSituacaoAnimal": 0,
@@ -30,6 +30,22 @@ angular.module('BackEndHandlerService', [])
 	    "Longitude": 0
 	};
 
+  function convertDataToBackEnd(obj){
+    backendData = {};
+
+    if(obj.animal == "Gato")
+      IdTipoAnimal = 1;   
+    else if(obj.animal == "Cachorro")
+      IdTipoAnimal = 2;
+    else
+      IdTipoAnimal = 3;
+
+    
+
+    backendData.IdTipoAnimal = IdTipoAnimal;
+
+    return backendData;
+  }
 
 	$http({
             url: host+address.SavePetLocation,
