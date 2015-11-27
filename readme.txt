@@ -1,3 +1,20 @@
+27/11/2015
+	- bug quando escolhe gato e raiva -> buga estado e salva sempre doente ou com varias situaçoes
+
+
+
+SqlLocaldb create "instance"
+SqlLocaldb start "instance"
+SqlLocaldb share "instance" "instance"
+SqlLocaldb info "instance"
+
+pegar info e colocar no PIPE
+(localdb)\.\VeniLocalDb
+
+
+SqlLocaldb info "VeniLocalDb"
+
+
 06/11/2015
 	
 	- criar doc de envio de objetos ao backend WS
