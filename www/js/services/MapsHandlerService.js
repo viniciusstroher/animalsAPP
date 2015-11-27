@@ -1,6 +1,6 @@
-angular.module('MapsHandlerService', [])
+angular.module('MapsHandlerService', ['BackEndHandlerService'])
 
-.factory('MapsHandlerService', function() {
+.factory('MapsHandlerService', function(BackEndHandlerService) {
   // Might use a resource here that returns a JSON array
   var map = null;
   var mapEvent = null;
@@ -314,7 +314,7 @@ angular.module('MapsHandlerService', [])
 
         postData.circle.infowindow.close();
 
-        console.log('infowindow',postData.circle.marker);
+        //console.log('infowindow',postData.circle.marker);
 
         postData.circle.marker.setIcon("../img/others.png");
 
@@ -330,7 +330,7 @@ angular.module('MapsHandlerService', [])
       
       }
       
-
+      BackEndHandlerService.saveMark(postData);
       
       
     }catch(err){
