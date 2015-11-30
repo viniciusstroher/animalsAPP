@@ -2,7 +2,8 @@ angular.module('BackEndHandlerService', [])
 
 .factory('BackEndHandlerService', function($http) {
   // Might use a resource here that returns a JSON array
-  var host = 'http://localhost:56292/';
+  var host = 'http://capemisa-hom.aplub.com.br/animalsapi/';
+  //var host = 'http://localhost:56292/';
   var token = '882b1bf1-fa10-4b37-8f67-fbd9e1fee68f';
 
 
@@ -17,18 +18,24 @@ angular.module('BackEndHandlerService', [])
 
 
   function saveMark(obj){
-    console.log(obj);
+    
+    var postData = convertDataToBackEnd(obj);
+    sendToBackEndData(postData);
+    /*
+          {
+              "AuthToken" : token,
+              
+              "IdTipoAnimal": 0,
+              "IdEstadoAnimal": 0,
+              "IdSituacaoAnimal": 0,
+              "Descricao": "string",
+              "Latitude": 0,
+              "Longitude": 0
+          }
 
-    var postData = {
-      "AuthToken" : token,
-	    
-	    "IdTipoAnimal": 0,
-	    "IdEstadoAnimal": 0,
-	    "IdSituacaoAnimal": 0,
-	    "Descricao": "string",
-	    "Latitude": 0,
-	    "Longitude": 0
-	};
+
+    */
+  }
 
   function convertDataToBackEnd(obj){
     backendData = {};
@@ -41,28 +48,50 @@ angular.module('BackEndHandlerService', [])
       IdTipoAnimal = 3;
 
     
-
+    var situacao = new Array();
+    /*situacao*/
+    if(obj.data.estado.indexOf("fome") != -1)
+      situacao.push(1);   
+    if(obj.data.estado.indexOf("doente") != -1)
+      situacao.push(2);
+    if(obj.data.estado.indexOf("medo") != -1)
+      situacao.push(3);
+    if(obj.data.estado.indexOf("raiva") != -1)
+      situacao.push(4);   
+    
+    //CRIAR ARRAY PARA SITUAÇAO E INSERIR SOH ID
+    backendData.Latitude = obj.coords.lat;
+    backendData.Longitude = obj.coords.lng;
+    backendData.Descricao = obj.data.descri;
+    
     backendData.IdTipoAnimal = IdTipoAnimal;
+    backendData.EstadoAnimal = situacao;
+
+    console.log('backendData obj',obj);
+    console.log('backendData',backendData);
 
     return backendData;
   }
 
-	$http({
-            url: host+address.SavePetLocation,
-            method: "POST",
-            data: postData,
-            headers: {'Content-Type': 'application/json',
-        				'AuthToken' : token}})
-	
-	.success(function(resp){
-    
-    	console.log("saveMARK http success",resp);
-    
-    }).error(function(err){
-    
-    	console.log("saveMARK http error",err);
-    
-    });
+  function sendToBackEndData(postData){
+    console.log('SEND POSTDATA',backendData);
+   
+  	$http({
+              url: host+address.SavePetLocation,
+              method: "POST",
+              data: postData,
+              headers: {'Content-Type': 'application/json',
+          				'AuthToken' : token}})
+  	
+  	.success(function(resp){
+      
+      	console.log("saveMARK http success",resp);
+      
+      }).error(function(err){
+      
+      	console.log("saveMARK http error",err);
+      
+      });
 
   }
 
