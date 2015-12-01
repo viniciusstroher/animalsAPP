@@ -21,20 +21,31 @@ angular.module('BackEndHandlerService', [])
     
     var postData = convertDataToBackEnd(obj);
     sendToBackEndData(postData);
-    /*
-          {
-              "AuthToken" : token,
-              
-              "IdTipoAnimal": 0,
-              "IdEstadoAnimal": 0,
-              "IdSituacaoAnimal": 0,
-              "Descricao": "string",
-              "Latitude": 0,
-              "Longitude": 0
-          }
+    
+  }
+
+  function loadMark(lat,lng,callback){
+    //console.log(lat1,lng1,lat2,lng2);
+    postData = { "Latitude" : lat,
+                  "Longitude" : lng};
+    $http({
+              url: host+address.GetAllTags,
+              method: "POST",
+              data: postData,
+              headers: {'Content-Type': 'application/json',
+                  'AuthToken' : token}})
+    
+    .success(function(resp){
+      
+        console.log("loadMark http success",resp);
+        callback(resp);
+      }).error(function(err){
+      
+        console.log("loadMark http error",err);
+      
+      });
 
 
-    */
   }
 
   function convertDataToBackEnd(obj){
@@ -95,7 +106,9 @@ angular.module('BackEndHandlerService', [])
 
   }
 
+
   return {
-    saveMark: saveMark
+    saveMark: saveMark,
+    loadMark: loadMark
   };
 });

@@ -4,7 +4,7 @@ angular.module('map.controllers', [])
     controllerMap = 'map';
     
     $scope.updateTextArea = function(element){
-        console.log(element);
+
         $scope.descri = element.value;
         //coment do merge
     }
@@ -51,11 +51,13 @@ angular.module('map.controllers', [])
             scopoModal.descri = "";
         }
 
-
+        coords = MapsHandlerService.getPosition();
         
         var postData = {animal: animal,
                         estado: healthStatus,
-                        descri: descri};
+                        descri: descri,
+                        lat:coords.lat,
+                        lng:coords.lng};
 
 
         //Limpa os objetos antes de enviar o post
@@ -110,6 +112,7 @@ angular.module('map.controllers', [])
                                             10,
                                             '#000000');*/
         MapsHandlerService.drawMyPos(lat,lon);
+        MapsHandlerService.loadMarkerNear(lat,lon);
     });
 
 

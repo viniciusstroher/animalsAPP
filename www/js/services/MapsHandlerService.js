@@ -190,7 +190,11 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
   function addCatMarker(postData){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Cat-icon.png";
     circle = null;
-    coords = getPosition();
+    
+
+    //coords = getPosition();
+    coords = {lat: postData.lat, lng : postData.lng};
+
     hit = isHitingCircle(coords.lat,coords.lng);
     
     if(hit == null){
@@ -213,7 +217,13 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
   function addDogMarker(postData){
     url = "http://icons.iconarchive.com/icons/icons8/windows-8/32/Animals-Dog-icon.png";
     circle = null;
-    coords = getPosition();
+
+
+    
+    //remover getPosition 
+    //coords = getPosition();
+    coords = {lat: postData.lat, lng : postData.lng};
+
     hit = isHitingCircle(coords.lat,coords.lng);
     
     if(hit == null){
@@ -236,7 +246,10 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
   function addOthersMarker(postData){
     url = "../img/others.png";
     circle = null;
-    coords = getPosition();
+
+    //coords = getPosition();
+    coords = {lat: postData.lat, lng : postData.lng};
+
     hit = isHitingCircle(coords.lat,coords.lng);
     
     if(hit == null){
@@ -337,6 +350,72 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
       console.log('addCustoMarker: '+err);
     }
   }
+
+  function loadMarkerNear(lat,long){
+    var map = getMapInstance();
+    
+    BackEndHandlerService.loadMark(lat,lon,function(resp){
+        //MONTAR !!!
+     
+
+        for(d in resp){
+          obj = resp[d];
+          
+          if (obj.IdTipoAnimal == 1)
+            animal = "cat";
+          if (obj.IdTipoAnimal == 2)
+            animal = "dog";
+          if (obj.IdTipoAnimal == 3)
+            animal = "others";
+
+          var estados = new Array();
+
+          for(estado in obj.EstadoAnimal){
+            switch(obj.EstadoAnimal[estado]){
+              case 1:
+                estados.push('fome');
+              break;
+
+              case 2:
+                estados.push('doente');
+              break;
+
+              case 3:
+                estados.push('medo');
+              break;
+
+              case 4:
+                estados.push('raiva');
+              break;
+
+              
+            }
+          }
+
+          postData = {animal:animal,
+                      estado:estados,
+                      descri:obj.Descricao,
+                      lat:obj.Latitude,
+                      lng:obj.Longitude};
+          
+          switch(resp[d].IdTipoAnimal){
+            case 1:
+              addCatMarker(postData);
+            break;
+
+            case 2:
+              addDogMarker(postData);
+            break;
+
+            case 3:
+              addOthersMarker(postData);
+            break;
+          }
+        }  
+    });
+    
+  }
+
   return {
     /*maDom -> string com o id do elemento para ser montado*/
     initMap: function(mapDom) {
@@ -365,6 +444,7 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
     addCircle: addCircle,
     getCircle: getCircle,
     isHitingCircle : isHitingCircle,
-    addLabel: addLabel
+    addLabel: addLabel,
+    loadMarkerNear: loadMarkerNear
   };
 });
