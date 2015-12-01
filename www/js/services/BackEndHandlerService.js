@@ -60,10 +60,10 @@ angular.module('BackEndHandlerService', [])
       situacao.push(4);   
     
     //CRIAR ARRAY PARA SITUAÇAO E INSERIR SOH ID
-    backendData.Latitude = obj.coords.lat;
-    backendData.Longitude = obj.coords.lng;
+    backendData.Latitude =  obj.coords.lat.toFixed(4);
+    backendData.Longitude = obj.coords.lng.toFixed(4);
     backendData.Descricao = obj.data.descri;
-    
+    backendData.IdSituacaoAnimal = 1; //NOT TAGGED
     backendData.IdTipoAnimal = IdTipoAnimal;
     backendData.EstadoAnimal = situacao;
 
