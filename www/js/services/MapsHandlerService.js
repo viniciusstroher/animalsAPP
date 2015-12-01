@@ -343,7 +343,6 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
       
       }
       
-      BackEndHandlerService.saveMark(postData);
       
       
     }catch(err){

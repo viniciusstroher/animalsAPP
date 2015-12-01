@@ -1,6 +1,6 @@
 angular.module('map.controllers', [])
 
-.controller('MapController', function($scope,$ionicModal,MapsHandlerService) {
+.controller('MapController', function($scope,$ionicModal,MapsHandlerService,BackEndHandlerService) {
     controllerMap = 'map';
     
     $scope.updateTextArea = function(element){
@@ -81,7 +81,8 @@ angular.module('map.controllers', [])
             break;
         }
 
-
+        BackEndHandlerService.saveMark({data: postData, coords: {lat:coords.lat , lng:coords.lng}});
+      
         
 
 
