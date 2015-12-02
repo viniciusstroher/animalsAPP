@@ -266,7 +266,7 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
 
     infoPackge = {circle:circle,coords:coords,animal:'Outro',url:url, data: postData};
     saveNewMarker(infoPackge);
-    addCustomMarker(infoPackge,circle);
+    addCustomMarker(infoPackge);
   }  
 
   function saveNewMarker(marker){
@@ -301,10 +301,10 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
 
   function addCustomMarker(postData){
     try{
-
-      coords = getPosition();
-
+      coords = postData.coords;
+      //coords = getPosition();
       if(postData.circle.marker == null){
+        
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(coords.lat,coords.lng),
           map: getMapInstance(),
@@ -333,11 +333,12 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
 
         cache = postData.circle.infowindow.content;
 
-      
         postData.circle.marker.addListener('click', function() {
           postData.circle.infowindow.setContent(cache + addLabel(coords,postData));
           postData.circle.infowindow.open(getMapInstance(), postData.circle.marker);
         });          
+        
+        postData.circle.infowindow.setContent(cache + addLabel(coords,postData));
    
         //postData.circle.marker = marker;
       
@@ -350,16 +351,15 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
     }
   }
 
-  function loadMarkerNear(lat,long){
+  function loadMarkerNear(lat,lon){
     var map = getMapInstance();
     
     BackEndHandlerService.loadMark(lat,lon,function(resp){
         //MONTAR !!!
-     
-
         for(d in resp){
-          obj = resp[d];
-          
+          var obj = resp[d];
+          var animal = "";
+
           if (obj.IdTipoAnimal == 1)
             animal = "cat";
           if (obj.IdTipoAnimal == 2)
@@ -393,11 +393,13 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
 
           postData = {animal:animal,
                       estado:estados,
-                      descri:obj.Descricao,
+                      descri: "("+obj.IdRegistroAnimal +") "+obj.Descricao,
                       lat:obj.Latitude,
                       lng:obj.Longitude};
           
-          switch(resp[d].IdTipoAnimal){
+
+          switch(obj.IdTipoAnimal){
+            
             case 1:
               addCatMarker(postData);
             break;
@@ -411,6 +413,7 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
             break;
           }
         }  
+
     });
     
   }

@@ -102,6 +102,7 @@ angular.module('map.controllers', [])
 
     MapsHandlerService.initMap(controllerMap);
     //Register Watch adiciona o marker a cada pulso de GPS
+ 
     MapsHandlerService.registerWatcherPosition(function(pos){
         lat = pos.coords.latitude;
         lon = pos.coords.longitude;
