@@ -1,6 +1,6 @@
 angular.module('MapsHandlerService', ['BackEndHandlerService'])
 
-.factory('MapsHandlerService', function(BackEndHandlerService) {
+.factory('MapsHandlerService', function(BackEndHandlerService,$compile) {
   // Might use a resource here that returns a JSON array
   var map = null;
   var mapEvent = null;
@@ -273,12 +273,24 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
     window.mapMarkers.push(marker);
   }
 
-  function getSavedMarkers(marker){
+  function getSavedMarkers(){
     return window.mapMarkers;
   }
   
+
+  function isRegistroExists(id){
+    markers = getSavedMarkers();
+    for(m in markers){
+      useMarker = markers[m];
+      if(useMarker.data.idanimal == id)
+        return true;
+    }
+
+    return false;
+  }
+
   function addLabel(coords,postData){
-    var label = '<div id="coords_'+coords.lat+'_'+coords.lng+'"><center><img src="'+postData.url+'" /> '+
+    var label = '<div  class="compile_box" id="coords_'+coords.lat+'_'+coords.lng+'"><center><img src="'+postData.url+'" /> '+
                   '<table>'+
                   '<tr>'+
                   '<td><b>Tipo do Animal:</b></td>'+'<td>'+postData.animal+'</td>'+
@@ -287,6 +299,21 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
                   '<tr>'+
                   '<td><b>Estado do Animal</b></td>' +'<td>'+postData.data.estado.join(',')+'</td>'+
                   '</tr>'+
+
+                  '<tr>'+
+                  '<td><b>Situação Atual:</b></td>'+'<td>'+
+                                              '<select registro="'+postData.data.idanimal+'">'+
+                                                '<option value=1>Nenhuma providencia foi tomada</option>'+
+                                                '<option value=2>Recebeu comida</option>'+
+                                                '<option value=3>Recebeu cuidados medicos</option>'+
+                                                '<option value=4>Recebeu auxilio</option>'+
+                                                '<option value=5>Transportado para abrigo</option>'+
+                                                '<option value=6>Animal com raiva e stressado</option>'+
+                                                '<option value=7>Não Encontrado</option>'+
+                                              '</select>'+
+                                              '</td>'+
+                  '</tr>'+
+                  
 
                   '<tr>'+
                   '<td><b>Descrição:</b></td>'+'<td>'+postData.data.descri+'</td>'+
@@ -317,9 +344,36 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
           content: addLabel(coords,postData)
         });
 
+        
+        
+
         marker.addListener('click', function() {
           infowindow.open(getMapInstance(), marker);
+
+          
+          google.maps.event.addListener(infowindow, 'domready', function(){
+              angular.element(document.querySelectorAll("div select")).bind("change",function(event){
+                
+                selectOpts = event.target.options;
+                idselect = event.target.getAttribute("registro");
+
+                for(opt in selectOpts){
+                  optUsing = selectOpts[opt];
+                  if(optUsing.selected){
+
+                    alert(optUsing.value+"##"+idselect);
+                    break;
+                  }
+
+                }
+              });
+              
+          }); 
+          
         });
+
+
+
 
         postData.circle.marker = marker;
         postData.circle.infowindow = infowindow;
@@ -334,8 +388,12 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
         cache = postData.circle.infowindow.content;
 
         postData.circle.marker.addListener('click', function() {
+          
+
           postData.circle.infowindow.setContent(cache + addLabel(coords,postData));
           postData.circle.infowindow.open(getMapInstance(), postData.circle.marker);
+          
+
         });          
         
         postData.circle.infowindow.setContent(cache + addLabel(coords,postData));
@@ -345,6 +403,7 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
       }
       
       
+
       
     }catch(err){
       console.log('addCustoMarker: '+err);
@@ -357,6 +416,8 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
     BackEndHandlerService.loadMark(lat,lon,function(resp){
         //MONTAR !!!
         for(d in resp){
+          
+
           var obj = resp[d];
           var animal = "";
 
@@ -395,24 +456,27 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
                       estado:estados,
                       descri: "("+obj.IdRegistroAnimal +") "+obj.Descricao,
                       lat:obj.Latitude,
-                      lng:obj.Longitude};
+                      lng:obj.Longitude,
+                      idanimal : obj.IdRegistroAnimal,
+                      situacao : obj.IdSituacaoAnimal};
           
+          if(!isRegistroExists(obj.IdRegistroAnimal)){
+            switch(obj.IdTipoAnimal){
+              
+              case 1:
+                addCatMarker(postData);
+              break;
 
-          switch(obj.IdTipoAnimal){
-            
-            case 1:
-              addCatMarker(postData);
-            break;
+              case 2:
+                addDogMarker(postData);
+              break;
 
-            case 2:
-              addDogMarker(postData);
-            break;
-
-            case 3:
-              addOthersMarker(postData);
-            break;
-          }
-        }  
+              case 3:
+                addOthersMarker(postData);
+              break;
+            }
+          }  
+        }
 
     });
     

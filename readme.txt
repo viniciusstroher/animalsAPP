@@ -1,3 +1,10 @@
+3/12/2015
+
+
+	criar verificador de registro e situaçao de aniaml para nao deixar baixar novamente e anexar ao grupo (perda de desempenho)
+
+	linkar ws de update de registro
+
 27/11/2015
 	- bug quando escolhe gato e raiva -> buga estado e salva sempre doente ou com varias situaçoes
 

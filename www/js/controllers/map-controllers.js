@@ -1,5 +1,8 @@
 angular.module('map.controllers', [])
 
+.controller('SituationController', function($scope,$ionicModal,MapsHandlerService,BackEndHandlerService) {
+
+})
 .controller('MapController', function($scope,$ionicModal,MapsHandlerService,BackEndHandlerService) {
     controllerMap = 'map';
     
@@ -102,7 +105,11 @@ angular.module('map.controllers', [])
 
     MapsHandlerService.initMap(controllerMap);
     //Register Watch adiciona o marker a cada pulso de GPS
- 
+    coords = MapsHandlerService.getPosition();
+    
+
+    MapsHandlerService.loadMarkerNear(coords.lat,coords.lng);
+
     MapsHandlerService.registerWatcherPosition(function(pos){
         lat = pos.coords.latitude;
         lon = pos.coords.longitude;
@@ -117,6 +124,10 @@ angular.module('map.controllers', [])
         MapsHandlerService.loadMarkerNear(lat,lon);
     });
 
+
+    $scope.updateSituacao = function(){
+        alert("#");
+    }
 
     $scope.addAnimal = function(){
 
