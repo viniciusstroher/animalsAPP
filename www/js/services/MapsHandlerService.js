@@ -302,14 +302,14 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
 
                   '<tr>'+
                   '<td><b>Situação Atual:</b></td>'+'<td>'+
-                                              '<select registro="'+postData.data.idanimal+'">'+
-                                                '<option value=1>Nenhuma providencia foi tomada</option>'+
-                                                '<option value=2>Recebeu comida</option>'+
-                                                '<option value=3>Recebeu cuidados medicos</option>'+
-                                                '<option value=4>Recebeu auxilio</option>'+
-                                                '<option value=5>Transportado para abrigo</option>'+
-                                                '<option value=6>Animal com raiva e stressado</option>'+
-                                                '<option value=7>Não Encontrado</option>'+
+                                              '<select '+(postData.data.idanimal != undefined ? '' : 'disabled')+' registro="'+postData.data.idanimal+'">'+
+                                                '<option '+(postData.data.situacao == 1 ? 'selected' : '')+' value=1>Nenhuma providencia foi tomada</option>'+
+                                                '<option '+(postData.data.situacao == 2 ? 'selected' : '')+' value=2>Recebeu comida</option>'+
+                                                '<option '+(postData.data.situacao == 3 ? 'selected' : '')+' value=3>Recebeu cuidados medicos</option>'+
+                                                '<option '+(postData.data.situacao == 4 ? 'selected' : '')+' value=4>Recebeu auxilio</option>'+
+                                                '<option '+(postData.data.situacao == 5 ? 'selected' : '')+' value=5>Transportado para abrigo</option>'+
+                                                '<option '+(postData.data.situacao == 6 ? 'selected' : '')+' value=6>Animal com raiva e stressado</option>'+
+                                                '<option '+(postData.data.situacao == 7 ? 'selected' : '')+' value=7>Não Encontrado</option>'+
                                               '</select>'+
                                               '</td>'+
                   '</tr>'+
@@ -360,8 +360,11 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
                 for(opt in selectOpts){
                   optUsing = selectOpts[opt];
                   if(optUsing.selected){
-
-                    alert(optUsing.value+"##"+idselect);
+                    BackEndHandlerService.updateSituationMark(idselect,optUsing.value,function(resp){
+                      console.log(resp);
+                      infowindow.close();
+                    });
+                    //alert(optUsing.value+"##"+idselect);
                     break;
                   }
 

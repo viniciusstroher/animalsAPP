@@ -13,7 +13,8 @@ angular.module('BackEndHandlerService', [])
   	GetAllSituations : 'GetAllSituations',
   	GetAllAnimalTipes : 'GetAllAnimalTipes',
   	SavePetLocation : 'SavePetLocation',
-  	UpdatePetLocation : 'UpdatePetLocation'
+  	UpdatePetLocation : 'UpdatePetLocation',
+    UpdatePetSituation : 'UpdatePetSituation'
   };
 
 
@@ -23,6 +24,31 @@ angular.module('BackEndHandlerService', [])
     sendToBackEndData(postData);
     
   }
+
+  function updateSituationMark(IdRegistroAnimal,IdSituacaoAnimal,callback){
+    //console.log(lat1,lng1,lat2,lng2);
+    postData = { "IdRegistroAnimal" : IdRegistroAnimal,
+                  "IdSituacaoAnimal" : IdSituacaoAnimal };
+    $http({
+              url: host+address.UpdatePetSituation,
+              method: "POST",
+              data: postData,
+              headers: {'Content-Type': 'application/json',
+                  'AuthToken' : token}})
+    
+    .success(function(resp){
+      
+        console.log("updateSituationMark http success",resp);
+        callback(resp);
+      }).error(function(err){
+      
+        console.log("updateSituationMark http error",err);
+      
+      });
+
+
+  }
+
 
   function loadMark(lat,lng,callback){
     //console.log(lat1,lng1,lat2,lng2);
@@ -77,6 +103,7 @@ angular.module('BackEndHandlerService', [])
     backendData.IdSituacaoAnimal = 1; //NOT TAGGED
     backendData.IdTipoAnimal = IdTipoAnimal;
     backendData.EstadoAnimal = situacao;
+    
 
     console.log('backendData obj',obj);
     console.log('backendData',backendData);
@@ -109,6 +136,7 @@ angular.module('BackEndHandlerService', [])
 
   return {
     saveMark: saveMark,
-    loadMark: loadMark
+    loadMark: loadMark,
+    updateSituationMark: updateSituationMark
   };
 });

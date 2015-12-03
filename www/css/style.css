@@ -11,7 +11,7 @@
 
 #mapAction{
 	position: absolute;
-	margin-top: -52px;
+	margin-top: -102px;
 
 	z-index: 9999;
 	width: 100%;
@@ -23,4 +23,11 @@
 
 .selectedButton {
 	background-color: lightblue;	
+}
+
+.tab-nav.tabs{
+	display: none;
+}
+.scroll-content.ionic-scroll.has-header.has-tabs{
+	height: 100%;
 }
