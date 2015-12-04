@@ -244,7 +244,7 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
   }
 
   function addOthersMarker(postData){
-    url = "../img/others.png";
+    url = "img/others.png";
     circle = null;
 
     //coords = getPosition();
@@ -330,63 +330,67 @@ angular.module('MapsHandlerService', ['BackEndHandlerService'])
     try{
       coords = postData.coords;
       //coords = getPosition();
+      console.log(postData);
       if(postData.circle.marker == null){
-        
-        var marker = new google.maps.Marker({
-          position: new google.maps.LatLng(coords.lat,coords.lng),
-          map: getMapInstance(),
-          icon: postData.url,
-          width: 10,
-          height: 10
-        });
-        
-        var infowindow = new google.maps.InfoWindow({
-          content: addLabel(coords,postData)
-        });
-
-        
-        
-
-        marker.addListener('click', function() {
-          infowindow.open(getMapInstance(), marker);
-
+        map = getMapInstance();
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(coords.lat,coords.lng),
+            map: map,
+            icon: postData.url,
+            width: 10,
+            height: 10,
+            visible: true
+          });
           
-          google.maps.event.addListener(infowindow, 'domready', function(){
-              angular.element(document.querySelectorAll("div select")).bind("change",function(event){
-                
-                selectOpts = event.target.options;
-                idselect = event.target.getAttribute("registro");
 
-                for(opt in selectOpts){
-                  optUsing = selectOpts[opt];
-                  if(optUsing.selected){
-                    BackEndHandlerService.updateSituationMark(idselect,optUsing.value,function(resp){
-                      console.log(resp);
-                      infowindow.close();
-                    });
-                    //alert(optUsing.value+"##"+idselect);
-                    break;
+          var infowindow = new google.maps.InfoWindow({
+            content: addLabel(coords,postData)
+          });
+
+          marker.addListener('click', function() {
+            infowindow.open(getMapInstance(), marker);
+
+            
+            google.maps.event.addListener(infowindow, 'domready', function(){
+                angular.element(document.querySelectorAll("div select")).bind("change",function(event){
+                  
+                  selectOpts = event.target.options;
+                  idselect = event.target.getAttribute("registro");
+
+                  for(opt in selectOpts){
+                    optUsing = selectOpts[opt];
+                    if(optUsing.selected){
+                      BackEndHandlerService.updateSituationMark(idselect,optUsing.value,function(resp){
+                        console.log(resp);
+                        infowindow.close();
+                      });
+                      //alert(optUsing.value+"##"+idselect);
+                      break;
+                    }
+
                   }
-
-                }
-              });
-              
-          }); 
+                });
+                
+            }); 
+            
+          });
           
-        });
+          marker.setMap(map);
+
+          postData.circle.marker = marker;
+          postData.circle.infowindow = infowindow;
 
 
+        
 
 
-        postData.circle.marker = marker;
-        postData.circle.infowindow = infowindow;
       }else{
 
         postData.circle.infowindow.close();
 
         //console.log('infowindow',postData.circle.marker);
 
-        postData.circle.marker.setIcon("../img/others.png");
+        postData.circle.marker.setIcon("img/others.png");
 
         cache = postData.circle.infowindow.content;
 

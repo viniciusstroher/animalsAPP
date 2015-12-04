@@ -11,7 +11,7 @@
 
 #mapAction{
 	position: absolute;
-	margin-top: -102px;
+	margin-top: -50px;
 
 	z-index: 9999;
 	width: 100%;
@@ -28,6 +28,15 @@
 .tab-nav.tabs{
 	display: none;
 }
+
+.bar-stable.bar.bar-header.disable-user-behavior{
+	display: none;
+}
 .scroll-content.ionic-scroll.has-header.has-tabs{
 	height: 100%;
+	margin-top: -50px;
+
+}
+.scroll-content.ionic-scroll.has-header.has-tabs-top{
+	margin-top: -100px;
 }

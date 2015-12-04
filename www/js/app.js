@@ -12,7 +12,7 @@ angular.module('starter', ['ionic', 'ngCordova',
                           'MapsHandlerService'])
 
 .run(function($ionicPlatform) {
-  $ionicPlatform.ready(function() {
+  $ionicPlatform.ready(function($ionicPopup,$ionicPlatform) {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -24,6 +24,23 @@ angular.module('starter', ['ionic', 'ngCordova',
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+
+
+    if(window.Connection) {
+                if(navigator.connection.type == Connection.NONE) {
+                    $ionicPopup.confirm({
+                        title: "Internet Disconnected",
+                        content: "The internet is disconnected on your device."
+                    })
+                    .then(function(result) {
+                        if(!result) {
+                            ionic.Platform.exitApp();
+                        }
+                    });
+                }
+            }
+
   });
 })
 

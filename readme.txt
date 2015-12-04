@@ -1,3 +1,6 @@
+	keytool -genkey -v -keystore saveAPet-key.keystore -alias saveAPet -keyalg RSA -keysize 2048 -validity 10000
+
+
 3/12/2015
 	criar remover de cada content
 	colocar check de internet state para celular
